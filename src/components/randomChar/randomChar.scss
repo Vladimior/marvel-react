@@ -1,0 +1,56 @@
+@import '../../style/variables.scss';
+
+.randomchar {
+  display: flex;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+  max-height: 277px;
+  &__block {
+    padding: 40px 35px;
+    width: 50%;
+    display: flex;
+  }
+  &__img {
+    width: 40%;
+    object-fit: fill;
+  }
+  &__info {
+    padding-top: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 20px;
+  }
+  &__name {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 29px;
+    text-transform: uppercase;
+  }
+  &__descr {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  &__btns {
+    a:nth-child(1) {
+      margin-right: 30px;
+    }
+  }
+  &__static {
+    width: 50%;
+    padding: 40px 35px;
+    background-color: $dark;
+    button {
+      margin-top: 13px;
+    }
+  }
+  &__title {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.045em;
+    color: #FFFFFF;
+    &:nth-child(2) {
+      margin-top: 48px;
+    }
+  }
+}
