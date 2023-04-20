@@ -1,65 +1,59 @@
-import {Component} from 'react';
+import {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
+
 import './charInfo.scss';
+
 import {MarvelServices} from "../services/MarvelServices";
 import {Spinner} from "../spinner/Spinner.js";
 import {ErrorMessage} from "../errorMessage/ErrorMessage.js";
 import {Skeleton} from "../skeleton/Skeleton.js";
 
-export class CharInfo extends Component {
-    state = {
-        char: null,
-        loading: false,
-        error: false,
-    }
-    marvelService = new MarvelServices();
+const CharInfo = (props) => {
 
-    componentDidMount () {
-        this.updateCharacter();
-    }
-    componentDidUpdate(prevProps) {
-        if (this.props.charId !== prevProps.charId) {
-            this.updateCharacter();
-        }
-    }
+    const [char, setChar] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
-    onError = () => {
-        this.setState({
-            loading: false,
-            error: true,
-        });
-    }
-    onCharLoaded = (char) => {
-        if (char.description === '') {
-            char.description = 'There is no data about this character, or they are classified by the shield agents';
-        }
-        this.setState({char, loading: false});
-    }
-    updateCharacter = () => {
-        const {charId} = this.props
+    const marvelService = new MarvelServices();
+
+    useEffect(() => {
+        updateCharacter();
+    }, [props.charId]);
+
+    const updateCharacter = () => {
+        const {charId} = props;
         if (!charId) {
             return;
         }
-        this.setState({loading: true});
-        this.marvelService.getCharacters(charId)
-            .then(this.onCharLoaded)
-            .catch(this.onError)
+        setLoading(true);
+        marvelService.getCharacters(charId)
+            .then(onCharLoaded)
+            .catch(onError)
     }
-    render() {
-        const {char, loading, error} = this.state;
+    const onError = () => {
+        setLoading(false);
+        setError(true);
+    }
+    const onCharLoaded = (char) => {
+        if (char.description === '') {
+            char.description = 'There is no data about this character, or they are classified by the shield agents';
+        }
+        setLoading(false);
+        setChar(char);
+    }
 
-        const skeleton = char || loading || error ? null : <Skeleton/>
-        const errorMessage = error ? <ErrorMessage/> : null;
-        const preLoading = loading ? <Spinner/> : null;
-        const content = !(loading || error || !char) ? <View char={char}/> : null;
-        return (
-            <div className="char__info">
-                {skeleton}
-                {errorMessage}
-                {preLoading}
-                {content}
-            </div>
-        )
-    }
+    const skeleton = char || loading || error ? null : <Skeleton/>
+    const errorMessage = error ? <ErrorMessage/> : null;
+    const preLoading = loading ? <Spinner/> : null;
+    const content = !(loading || error || !char) ? <View char={char}/> : null;
+    return (
+        <div className="char__info">
+            {skeleton}
+            {errorMessage}
+            {preLoading}
+            {content}
+        </div>
+    )
 }
 
 
@@ -101,3 +95,8 @@ const View = ({char}) => {
         </>
     )
 }
+
+CharInfo.propTypes = {
+    charId: PropTypes.number
+}
+export default CharInfo;

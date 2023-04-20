@@ -1,7 +1,7 @@
 import {Component} from 'react';
 import {ErrorMessage} from "../errorMessage/ErrorMessage.js";
 
-export class ErrorBoundary extends Component {
+class ErrorBoundary extends Component {
     state = {
         error: false,
     }
@@ -18,3 +18,5 @@ export class ErrorBoundary extends Component {
         return  this.props.children;
     }
 }
+
+export default ErrorBoundary;

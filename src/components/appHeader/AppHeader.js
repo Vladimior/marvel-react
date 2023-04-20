@@ -1,7 +1,7 @@
 import './appHeader.scss';
 import logo from '../../resources/img/Marvel_Logo.svg.png'
 
-export const AppHeader = () => {
+const AppHeader = () => {
     return (
         <header className="app__header">
             <h1 className="app__title">
@@ -22,3 +22,5 @@ export const AppHeader = () => {
         </header>
     )
 }
+
+export default AppHeader;
